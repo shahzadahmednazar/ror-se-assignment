@@ -1,16 +1,12 @@
 <div id="<%= dom_id blog %>">
-  
-
-  <div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title"><%= blog.title %></h5>
-      <h6 class="card-subtitle mb-2 text-muted"><%= blog.user.email %></h6>
-      <p class="card-text"><%= blog.body %></p>
-      <a href="<%= blog_path(blog) %>" class="card-link">View</a>
-      <% if blog.user == current_user %>
-      <a href="<%= edit_blog_path(blog)%>" class="card-link">Edit</a>
-      <% end %>
-    </div>
-  </div>
-
+  <tr>
+    <th scope="row"><%= blog.id %></th>
+    <td><%= blog.title %></td>
+    <td><%= blog.body %></td>
+    <td><%= blog.user.email %></td>
+    
+    <% if blog.user == current_user %>
+      <td><a href="<%= edit_blog_path(blog)%>" class="card-link">Edit</a></td>
+    <% end %>
+  </tr>
 </div>

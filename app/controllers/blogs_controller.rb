@@ -1,10 +1,13 @@
+require 'csv'
 class BlogsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_blog, only: %i[ show edit update destroy ]
 
   # GET /blogs or /blogs.json
   def index
-    @blogs = current_user.blogs
+    # @blogs = current_user.blogs
+    @pagy, @blogs = pagy(current_user.blogs)
+
   end
 
   # GET /blogs/1 or /blogs/1.json
@@ -56,6 +59,19 @@ class BlogsController < ApplicationController
       format.html { redirect_to blogs_url, notice: "Blog was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def import
+    file = params[:attachment]
+    data = CSV.parse(file.to_io, headers: true, encoding: 'utf8')
+    # Start code to handle CSV data
+    ActiveRecord::Base.transaction do
+      data.each do |row|
+        current_user.blogs.create!(row.to_h)
+      end
+    end
+    # End code to handle CSV data
+    redirect_to blogs_path
   end
 
   private
