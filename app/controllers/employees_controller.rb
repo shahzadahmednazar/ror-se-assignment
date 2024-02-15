@@ -5,7 +5,11 @@ class EmployeesController < ApplicationController
   before_action :authenticate_user!
   
     def index
-      uri = URI('https://dummy-employees-api-8bad748cda19.herokuapp.com/employees')
+      if params[:page].present?
+        uri = URI("https://dummy-employees-api-8bad748cda19.herokuapp.com/employees?page=#{params[:page]}")
+      else
+        uri = URI('https://dummy-employees-api-8bad748cda19.herokuapp.com/employees')
+      end
       @response = Net::HTTP.get(uri)
       @employees = JSON.parse(@response)
     end
