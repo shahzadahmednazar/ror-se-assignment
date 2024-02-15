@@ -35,7 +35,7 @@ Please follow the instructions below to complete the tasks and showcase your pro
 
 ### Task 1: Optimization
 
-- There is a `Blog` CRUD in the app and it also has an import acoution in `BlogsController` which takes a csv file and import all the records. The challenge is to optimize that action in a way that it takes file of 50k to 100k records and create blogs. You need to take care of memory and database optimization and make sure that it does not crash
+- There is a `Blog` CRUD in the app and it also has an import action in `BlogsController` which takes a csv file and import all the records. The challenge is to optimize that action in a way that it takes file of 50k to 100k records and create blogs. You need to take care of memory and database optimization and make sure that it does not crash
 
 
 ### Task 2: Refactoring
