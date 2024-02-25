@@ -63,15 +63,11 @@ class BlogsController < ApplicationController
 
   def import
     file = params[:attachment]
-    data = CSV.parse(file.to_io, headers: true, encoding: 'utf8')
-    # Start code to handle CSV data
-    ActiveRecord::Base.transaction do
-      data.each do |row|
-        current_user.blogs.create!(row.to_h)
-      end
-    end
-    # End code to handle CSV data
-    redirect_to blogs_path
+    user_id = current_user.id
+    file_path = Rails.root.join('tmp', file.original_filename)
+    File.open(file_path, 'wb') { |f| f.write(file.read) }
+    CsvImportWorker.perform_async(current_user.id, file_path.to_s)
+    redirect_to blogs_path, notice: 'Import process has started. You will be notified once it completes.'
   end
 
   private
